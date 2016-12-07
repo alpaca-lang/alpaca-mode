@@ -14,7 +14,7 @@
 ;; See the License for the specific language governing permissions and
 ;; limitations under the License.
 
-;; Author: Eric Bailey
+;; Author: Eric Bailey, Tyler Weir
 ;; Keywords: languages alpaca
 
 ;;; Commentary:
