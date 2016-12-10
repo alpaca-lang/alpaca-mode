@@ -80,7 +80,7 @@
 
     ;; Data constructors
     (,(rx symbol-start
-          (group (or "Nil" "Cons" "None" "Some"))
+          (group (char upper) (1+ (or word ?_)))
           symbol-end)
      (1 font-lock-type-face))
 
