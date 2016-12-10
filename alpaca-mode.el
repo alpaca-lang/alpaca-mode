@@ -85,7 +85,7 @@
      (1 font-lock-type-face))
 
     (,(rx (or digit symbol-start)
-          (group (or ?- ?+))
+          (group (or ?- ?+ ?%))
           (or digit symbol-end))
      (1 font-lock-variable-name-face))
 
