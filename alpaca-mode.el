@@ -44,16 +44,19 @@
      (1 font-lock-keyword-face) (2 font-lock-type-face))
 
     ;; Export function
-    (,(rx symbol-start
+    (,(rx line-start
           (group "export") (1+ space)
-          (group (1+ (or word ?_)) ?/ (1+ digit)))
+          (group (: (1+ (or word ?_)) ?/ (1+ digit))
+                 (* ?, (opt ?\n) (* space)
+                    (: (1+ (or word ?_)) ?/ (1+ digit))))
+          line-end)
      (1 font-lock-keyword-face) (2 font-lock-variable-name-face))
 
     ;; Export type
     (,(rx line-start
           (group "export_type") (1+ space)
           (group (1+ (or word ?_))
-                 (* ?, (or ?\n (1+ space))
+                 (* ?, (opt ?\n) (* space)
                     (1+ (or word ?_))))
           line-end)
      (1 font-lock-keyword-face)
