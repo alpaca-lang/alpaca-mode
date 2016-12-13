@@ -62,11 +62,11 @@
      (1 font-lock-keyword-face)
      (2 font-lock-variable-name-face))
 
-    ;; HACK: Multi-line comments
-    (,(rx (group "{-") (group (* anything)) (group "-}"))
-     (1 font-lock-comment-delimiter-face)
-     (2 font-lock-comment-face)
-     (3 font-lock-comment-delimiter-face))
+    ;; FIXME: Multi-line comments
+    ;; (,(rx (group "{-") (group (* anything)) (group "-}"))
+    ;;  (1 font-lock-comment-delimiter-face)
+    ;;  (2 font-lock-comment-face)
+    ;;  (3 font-lock-comment-delimiter-face))
 
     ;; Type definition
     (,(rx line-start
