@@ -95,6 +95,10 @@
     (,(rx (not word) (group (or "->" "==" ?= "!=" ">=" "=<" ?> ?< ?=)))
      (1 font-lock-variable-name-face))
 
+    ;; "Don't care"
+    (,(rx space (group ?_) space)
+     (1 font-lock-variable-name-face))
+
     ;; BIFs
     (,(rx symbol-start
           (group "is_" (or "integer" "float" "atom" "bool"
