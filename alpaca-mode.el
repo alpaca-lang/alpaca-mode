@@ -92,6 +92,21 @@
           (or digit symbol-end))
      (1 font-lock-variable-name-face))
 
+    ;; Binaries
+    (,(rx symbol-start
+          (group (or "unit" "size" "type"))
+          ?=)
+     (1 font-lock-type-face))
+
+    (,(rx symbol-start (group "<<"))
+     (1 font-lock-variable-name-face))
+
+    (,(rx (group ">>") symbol-end)
+     (1 font-lock-variable-name-face))
+
+    ;; Operators
+    (,(rx (group ?=))
+     (1 font-lock-variable-name-face))
     (,(rx (not word) (group (or "->" "==" ?= "!=" ">=" "=<" ?> ?< ?=)))
      (1 font-lock-variable-name-face))
 
