@@ -23,108 +23,27 @@
 
 ;;; Code:
 
-(defconst alpaca-font-lock-keywords
-  ;; Reserved words
-  `(,(rx symbol-start
-         (or "let" "in"
-             "match" "with"
-             "beam"
-             "spawn" "send" "receive" "after"
-             "test"
-             "error" "exit" "throw"
-             "true" "false"
-             "unit" "size" "end" "sign"
-             "big" "little" "native" "utf8")
-         symbol-end)
+(require 'alpaca-indent)
+(require 'alpaca-font-lock)
 
-    ;; Module definition
-    (,(rx symbol-start
-          (group "module") (1+ space)
-          (group (1+ (or word ?_))))
-     (1 font-lock-keyword-face) (2 font-lock-type-face))
-
-    ;; Export function
-    (,(rx line-start
-          (group "export") (1+ space)
-          (group (: (1+ (or word ?_)) ?/ (1+ digit))
-                 (* ?, (opt ?\n) (* space)
-                    (: (1+ (or word ?_)) ?/ (1+ digit))))
-          line-end)
-     (1 font-lock-keyword-face) (2 font-lock-variable-name-face))
-
-    ;; Export type
-    (,(rx line-start
-          (group "export_type") (1+ space)
-          (group (1+ (or word ?_))
-                 (* ?, (opt ?\n) (* space)
-                    (1+ (or word ?_))))
-          line-end)
-     (1 font-lock-keyword-face)
-     (2 font-lock-variable-name-face))
-
-    ;; FIXME: Multi-line comments
-    ;; (,(rx (group "{-") (group (* anything)) (group "-}"))
-    ;;  (1 font-lock-comment-delimiter-face)
-    ;;  (2 font-lock-comment-face)
-    ;;  (3 font-lock-comment-delimiter-face))
-
-    ;; Type definition
-    (,(rx line-start
-          (group "type") (1+ space) (group (1+ (or word ?_))) (1+ space)
-          (group (1+ ?' (1+ (or word ?_)) (1+ space))) ?=)
-     (1 font-lock-keyword-face)
-     (2 font-lock-function-name-face))
-
-    ;; Function definition
-    (,(rx symbol-start
-          (group (1+ (or word ?_))) (1+ space)
-          (group (1+ (or word ?_ space))) (1+ space) ?=)
-     (1 font-lock-function-name-face))
-
-    ;; Data constructors
-    (,(rx symbol-start
-          (group (char upper) (1+ (or word ?_)))
-          symbol-end)
-     (1 font-lock-type-face))
-
-    (,(rx (or digit symbol-start)
-          (group (or ?- ?+ ?%))
-          (or digit symbol-end))
-     (1 font-lock-variable-name-face))
-
-    (,(rx (not word) (group (or "->" "==" ?= "!=" ">=" "=<" ?> ?< ?=)))
-     (1 font-lock-variable-name-face))
-
-    ;; "Don't care"
-    (,(rx space (group ?_) space)
-     (1 font-lock-variable-name-face))
-
-    ;; BIFs
-    (,(rx symbol-start
-          (group "is_" (or "integer" "float" "atom" "bool"
-                           "list" "string" "chars" "pid" "binary"))
-          symbol-end)
-     (1 font-lock-builtin-face))))
+(defgroup alpaca nil
+  "Support for the alpaca programming language."
+  :link '(url-link :tag "Github" "https://github.com/alpaca-lang/alpaca-mode")
+  :group 'languages)
 
 ;;;###autoload
-(defun alpaca-mode ()
-  "Major mode for editing Alpaca files."
-  (interactive)
-  (kill-all-local-variables)
+(define-derived-mode alpaca-mode prog-mode "Alpaca"
+  "Major mode for editing Alpaca source code."
+  (setq-local indent-tabs-mode nil)
 
-  (let ((table (make-syntax-table)))
-    (modify-syntax-entry ?- ". 124b" table)
-    (modify-syntax-entry ?\n "> b" table)
-    (set-syntax-table table))
+  (when (boundp 'electric-indent-inhibit)
+    (setq-local electric-indent-inhibit t))
 
-  (setq major-mode 'alpaca-mode)
-  (set (make-local-variable 'font-lock-defaults)
-       '((alpaca-font-lock-keywords) nil nil))
-  (set (make-local-variable 'font-lock-keywords)
-       alpaca-font-lock-keywords)
+  (setq-local comment-start "--")
+  (setq-local comment-end "")
 
-  (set (make-local-variable 'comment-start) "--")
-  (set (make-local-variable 'comment-end) ""))
+  (turn-on-alpaca-font-lock)
+  (turn-on-alpaca-indent))
 
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.alp\\'" . alpaca-mode))
