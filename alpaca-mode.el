@@ -1,4 +1,12 @@
-;;; alpaca-mode --- A major mode for the Alpaca language.
+;;; alpaca-mode.el --- A major mode for the Alpaca language.
+
+;; Copyright (C) 2016-2017 The Alpaca Community
+
+;; Author: Eric Bailey, Tyler Weir
+;; Keywords: languages
+;; Version: 0.1
+
+;; This file is not part of GNU Emacs.
 
 ;; This file is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -12,9 +20,6 @@
 
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-;; Author: Eric Bailey, Tyler Weir
-;; Keywords: languages alpaca
 
 ;;; Commentary:
 
